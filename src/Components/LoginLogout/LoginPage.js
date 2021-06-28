@@ -1,26 +1,47 @@
 import React from 'react';
+
+import PhoneInput from 'react-phone-number-input';
+
 import "./Login.css";
+import 'react-phone-number-input/style.css';
+
 import LoginPic from "../../Assets/Couple RV Trip.png";
 import SignupPic from "../../Assets/Couple Outdoors 2.png";
 
 const LoginPage = (props) => {
 
     const {
-        isSignUp,
-        SignInBtn,
-        SignUpBtn,
         email,
         setEmail,
         emailErr,
+
+        phone,
+        setPhone,
+        phoneErr,
+
         password,
         setPassword,
+        passwordErr,
+
         repeatPassword,
         setRepeatPassword,
-        passwordErr,
         repeatPasswordErr,
+
         handleLogin,
         handleSignUp,
     } = props;
+
+    // Sign-up Log-in Switch transition
+    const [isSignUp, changeSignUp] = React.useState(false);
+
+    // Sign-up Log-in Switch transition
+    const SignUpBtn = () => {
+        changeSignUp(!isSignUp);
+    };
+
+    const SignInBtn = () => {
+        changeSignUp(!isSignUp);
+    };
 
     return (
         <div className={`container ${isSignUp ? 'sign-up-mode' : ''}`}>
@@ -30,7 +51,12 @@ const LoginPage = (props) => {
                 <div className="signin-signup">
 
                     {/* LogIn */}
-                    <form action="#" className="sign-in-form">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                        }}
+                        className="form-hide sign-in-form">
+
                         <h2 className="title">Log In</h2>
                         <div className="input-field">
                             <i className="fas fa-user" />
@@ -83,7 +109,12 @@ const LoginPage = (props) => {
                     </form>
 
                     {/* SignUp */}
-                    <form action="#" className="sign-up-form">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                        }}
+                        className="form-hide sign-up-form">
+
                         <h2 className="title">Sign Up</h2>
                         <div className="input-field">
                             <i className="fas fa-envelope" />
@@ -97,13 +128,13 @@ const LoginPage = (props) => {
                         </div>
                         <p className="errorMsg">{emailErr}</p>
 
-                        <div className="input-field">
-                            <i className="fas fa-phone-alt" />
-                            <input
-                                type="tel"
-                                required
-                                placeholder="Phone" />
-                        </div>
+                        <PhoneInput
+                            className="input-field"
+                            required
+                            placeholder="Enter phone number"
+                            value={phone}
+                            onChange={setPhone} />
+                        <p className="errorMsg">{phoneErr}</p>
 
                         <div className="input-field">
                             <i className="fas fa-lock" />
